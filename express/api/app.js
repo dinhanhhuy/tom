@@ -15,10 +15,9 @@ const { Knex } = require('./core');
     app.use(bodyParser.json({ limit: '100mb' }));
 
     const port = parseInt(Config.apiPort);
-    console.log('port', port)
     
-    const userOrders = await Knex.table('user_order');
-    console.log(userOrders);
+    // const userOrders = await Knex.table('user_order');
+    // console.log(userOrders);
 
     app.listen(port, async () => {
         console.log(`Worker ${process.pid} started at http://localhost:${port}`);
