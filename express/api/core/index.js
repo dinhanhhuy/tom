@@ -1,7 +1,7 @@
 const Knex = require('./knex');
-const Lock = require('./lock');
+const Lock = require('./locker');
 
 module.exports = {
     Knex,
-    Lock,
+    Locker,
 }
