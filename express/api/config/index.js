@@ -2,6 +2,7 @@ const DotEnv = require('dotenv')
 const env = _getEnv();
 
 let config = {
+    apiPort: env.APP_PORT,
     database: {
         client: env.DATABASE_CLIENT,
         connection: {

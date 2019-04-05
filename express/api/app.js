@@ -1,23 +1,27 @@
-/**
- * Created by Carlos Leonardo Camilo Vargas HUuamán on 12/9/16.
- */
-var express = require("express");
-var bodyParser = require('body-parser');
+const config = require('./config');
 
-var index = require('./routes/index');
-var employee = require('./routes/employee');
-var placelocation = require('./routes/placelocation');
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const compression = require('compression');
+const app = express();
+const { Knex } = require('./core');
 
-var app = express();
+(async () => {
+    //config
+    app.use(cors());
+    app.use(compression());
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json({ limit: '100mb' }));
 
-app.set("view engine", "jade");
+    const port = parseInt(config.apiPort);
+    
+    const userOrders = await Knex.table('user_order');
+    console.log(userOrders);
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static("public"));
-app.use('/employee', employee);
-app.use('/', index);
-app.use('/placelocation', placelocation);
+    app.listen(port, async () => {
+        console.log(`Worker ${process.pid} started at http://localhost:${config.apiPort}`);
+    });
+})();
 
-app.listen(8123);
-console.log('port 8123');
+module.exports = { app };
