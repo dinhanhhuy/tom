@@ -1,35 +1,32 @@
 ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'root';
 
 /***CREATING ALL TABLES*/
-CREATE TABLE EMPLOYEE (
-  EmployeeId   INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  FirstName    VARCHAR(40)                    NULL,
-  LastName     VARCHAR(40)                    NULL,
-  Phone        VARCHAR(20)                    NULL,
-  Address      VARCHAR(100)                   NULL,
-  City         VARCHAR(30)                    NULL,
-  FullName     VARCHAR(100)                   NULL,
-  Email        VARCHAR(100)                   NULL,
-  Pin          VARCHAR(100)                   NULL,
-  CreationDate DATETIME                       NULL,
-  EmployeeCode VARCHAR(10) UNIQUE             NOT NULL
-)
-  ENGINE = INNODB;
+CREATE TABLE `tom`.`product` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `stock` INT UNSIGNED NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`));
 
-/* INSERT DATA */
-INSERT INTO EMPLOYEE (FirstName, LastName, Phone, Address, City, FullName, Email, Pin, CreationDate, EmployeeCode)
-VALUES ('SYSADMIN', 'SYSADMIN', 945214775, 'Av. Alfonso Ugarte', 'Lima', 'SYSADMIN SYSADMIN', 'sysadmin@gmail.com',
-        1, '2011-12-18 13:17:17', 'SYSADMIN');
+CREATE TABLE `tom`.`order` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`));
 
-DROP PROCEDURE IF EXISTS sp_GetEmployee;
-DELIMITER //
-CREATE PROCEDURE sp_GetEmployee()
-  BEGIN
-    SELECT * FROM EMPLOYEE;
-  END //
-DELIMITER ;
-/**Drop StoreProcedure**/
-CALL sp_GetEmployee();
+
+CREATE TABLE `tom`.`order_line` (
+  `product_id` INT NOT NULL,
+  `order_id` INT NOT NULL,
+  `quantity` INT UNSIGNED NOT NULL,
+  INDEX `fk_order_id_idx` (`order_id` ASC),
+  INDEX `fk_product_id_idx` (`product_id` ASC),
+  CONSTRAINT `fk_order_id`
+    FOREIGN KEY (`order_id`)
+    REFERENCES `tom`.`order` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_product_id`
+    FOREIGN KEY (`product_id`)
+    REFERENCES `tom`.`product` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
 /******************************************************************/
 
 
