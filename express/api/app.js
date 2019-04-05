@@ -1,4 +1,4 @@
-const config = require('./config');
+const Config = require('./config');
 
 const express = require('express');
 const cors = require('cors');
@@ -14,13 +14,14 @@ const { Knex } = require('./core');
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json({ limit: '100mb' }));
 
-    const port = parseInt(config.apiPort);
+    const port = parseInt(Config.apiPort);
+    console.log('port', port)
     
     const userOrders = await Knex.table('user_order');
     console.log(userOrders);
 
     app.listen(port, async () => {
-        console.log(`Worker ${process.pid} started at http://localhost:${config.apiPort}`);
+        console.log(`Worker ${process.pid} started at http://localhost:${port}`);
     });
 })();
 
