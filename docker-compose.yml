@@ -6,8 +6,6 @@ services:
      - "8080:8080"
     depends_on:
      - mysql
-    environment:
-     - DATABASE_HOST=127.0.0.1
     volumes:
      - ./express/api:/app/api
   mysql:
