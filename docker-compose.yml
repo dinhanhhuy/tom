@@ -1,16 +1,17 @@
 version: '2'
 services:
-  tom-api:
+  api:
     build: ./express
     ports:
-     - "8123:8123"
+     - "8080:8080"
     depends_on:
-     - tom-mysql
+     - mysql
     environment:
      - DATABASE_HOST=127.0.0.1
     volumes:
      - ./express/api:/app/api
-  tom-mysql:
+  mysql:
     build: ./database
+    restart: always
     ports:
      - "3306:3306"
