@@ -12,7 +12,7 @@ https://www.docker.com/
 
 Start application (Node & MySQL)
 ------------
-(wait a bit, MySQL about reset 3 time at the first time).
+(wait a bit, MySQL about reset 3 times at the first run).
 ```sh
 $ ./start.sh
 ```
