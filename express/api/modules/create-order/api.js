@@ -7,7 +7,7 @@ app.post('/purchases', async (req, res) => {
     try {
         // todo: validate parameter
         const productLines = req.body;
-        const lines = productLines.map(line => { 
+        const lines = productLines.map(line => {
             return {
                 productId: line.productID,
                 quantity: line.quantity,
@@ -22,14 +22,14 @@ app.post('/purchases', async (req, res) => {
             };
         });
 
-        res.json({successful: true});
+        res.json({ successful: true });
     } catch (e) {
         // todo: create custom error type so dont validate each api
         let code = 500;
-        let message = 'internal error';
+        let message = { error: 'internal error' };
         if (e.message === 'PRODUCT_OUT_OF_STOCK') {
             code = 422;
-            message = {successful: false};
+            message = { successful: false };
         }
         res.status(code).json(message);
     }
