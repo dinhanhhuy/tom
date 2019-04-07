@@ -14,7 +14,6 @@ const Knex = require('knex')({
         max: Number(Config.database.pool.max),
     },
     acquireConnectionTimeout: Config.database.pool.acquire,
-    debug: true,
 });
 
 module.exports = Knex;
