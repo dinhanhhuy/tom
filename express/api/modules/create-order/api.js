@@ -27,7 +27,7 @@ app.post('/purchases', async (req, res) => {
         // todo: create custom error type so dont validate each api
         let code = 500;
         let message = { error: 'internal error' };
-        if (e.message === 'PRODUCT_OUT_OF_STOCK') {
+        if (e.message === 'INVALID_PRODUCT_ID_OR_STOCK') {
             code = 422;
             message = { successful: false };
         }

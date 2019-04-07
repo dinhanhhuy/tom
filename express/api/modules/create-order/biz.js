@@ -36,7 +36,7 @@ class CreateOrderBiz extends BaseBiz {
         }
 
         if (errors.length > 0) {
-            throw new Error('PRODUCT_OUT_OF_STOCK');
+            throw new Error('INVALID_PRODUCT_ID_OR_STOCK');
         }
 
         // create new order

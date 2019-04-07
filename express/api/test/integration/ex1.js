@@ -20,6 +20,9 @@ const expect = {
 let result;
 describe('Example 1:', () => {
     result = {};
+    it('truncate db', async function () {
+
+    });
     it('create user order', async function () {
         this.timeout(timeoutApi);
         let res = await core
