@@ -3,6 +3,7 @@ const biz = require('../core/biz');
 const CreateOrderBiz = require('../create-order/biz');
 
 app.post('/purchases', async (req, res) => {
+    // todo: create wraper try/catch so we dont try catch on each API
     try {
         // todo: validate parameter
         const productLines = req.body;
@@ -21,9 +22,15 @@ app.post('/purchases', async (req, res) => {
             };
         });
 
-        res.json(result);
+        res.json({successful: true});
     } catch (e) {
-        // todo: create custom api try catch wraper with custom error type
-        res.status(500).json({ error: e.message });
+        // todo: create custom error type so dont validate each api
+        let code = 500;
+        let message = 'internal error';
+        if (e.message === 'PRODUCT_OUT_OF_STOCK') {
+            code = 422;
+            message = {successful: false};
+        }
+        res.status(code).json(message);
     }
 });
