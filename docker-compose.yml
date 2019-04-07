@@ -12,4 +12,4 @@ services:
     build: ./database
     restart: always
     ports:
-     - "3306:3316"
+     - "3306:3306"
