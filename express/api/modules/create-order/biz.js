@@ -22,7 +22,7 @@ class CreateOrderBiz extends BaseBiz {
                 .where({ 
                     id: productId 
                 })
-                .where('stock', '>', quantity);
+                .where('stock', '>=', quantity);
             
             // validate update success
             if (updateStock === 0) {
