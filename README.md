@@ -14,5 +14,5 @@ $ ./start.sh
 Run test
 ------------
 ```
-$ ./test
+$ ./test.sh
 ```
