@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "HOST=127.0.0.1:8080 mocha test/integration",
+    "test": "HOST=127.0.0.1:8088 mocha test/integration",
     "start": "npm i && node app.js"
   },
   "author": "",
