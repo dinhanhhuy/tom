@@ -2,7 +2,7 @@ const Core = require('../core');
 const moment = require('moment');
 const timeoutApi = 50000;
 
-describe('************** Example 4: **************', () => {
+describe('**************************** Example 4: ****************************', () => {
     result = {};
     it('truncate db', async function () {
         await Core.truncateDB();
