@@ -1,1 +1,1 @@
-docker exec -it tom-e-commerce_api_1 /bin/bash -c 'cd /app/api && npm run test'
+docker exec -it tom_api /bin/bash -c 'cd /app/api && npm run test'

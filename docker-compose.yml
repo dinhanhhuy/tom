@@ -1,6 +1,7 @@
 version: '2'
 services:
   api:
+    container_name: 'tom_api'
     build: ./express
     ports:
      - "8080:8080"
@@ -9,6 +10,7 @@ services:
     volumes:
      - ./express/api:/app/api
   mysql:
+    container_name: 'tom_mysql'
     build: ./database
     restart: always
     ports:
