@@ -1,8 +1,8 @@
 const { Knex } = require('../../core');
 
 class BaseBiz {
-    constructor({ trx }) {
-        this.trx = trx || null;
+    constructor(options) {
+        this.trx = (options || {}).trx || null;
     }
 
     static async transaction(callback) {
