@@ -9,7 +9,7 @@ class Core {
     static async truncateDB() {
         const biz = new Biz();
         const tables = ['order_line', 'order', 'product'];
-        
+
         await biz
             .query
             .raw(`SET FOREIGN_KEY_CHECKS=0`);
@@ -42,7 +42,7 @@ class Core {
         const datas = await biz
             .query
             .table('product');
-        
+
         products.forEach(product => {
             const matchProduct = datas.find(i => i.id === product.id);
             if (matchProduct.stock !== product.stock) {
@@ -77,14 +77,10 @@ class Core {
         }
     }
 
-    static requestApi({url, method, host, fullUrl}) {
+    static requestApi({ url, method, host }) {
         let request = chai.request(process.env.HOST || host);
-        // console.log(`>>>>> ${fullUrl || config.apiServer.path + url}`)
-
-        // console.log(url, method);
-
         return request
-            [method](url)
+        [method](url)
             .set('content-type', 'application/json');
     }
 
