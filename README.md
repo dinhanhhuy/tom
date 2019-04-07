@@ -22,3 +22,16 @@ Run test
 ```
 $ ./test.sh
 ```
+
+Advances
+------------
+#### The flowing config affect to stress test:
+* Number CPU of container:  
+Number API cluster equal to number CPU of container (`pm2 start -i max`). Each cluster using max ~100% CPU.
+* Port mapping (macOS only):  
+macOS docker-compose don't support `"network_mode: host"`.  
+To use outside tool like ApacheBench (ab) on macOS you need update the below settings and `./start.sh` again.  
+    1. Remove `"network_mode"` form `./docker-compose.yml`.
+    2. Update `./express/api/config/local.env` setting to `DATABASE_CONNECTION_HOST=host.docker.internal`.
+* MySQL data loss:  
+This project don't mount MySQL data outside of container. Data maybe loss when restart container.
