@@ -2,6 +2,7 @@ version: '2'
 services:
   api:
     container_name: 'tom_api'
+    network_mode: host
     build: ./express
     ports:
      - "8080:8080"
@@ -11,6 +12,7 @@ services:
      - ./express/api:/app/api
   mysql:
     container_name: 'tom_mysql'
+    network_mode: host
     build: ./database
     restart: always
     ports:
