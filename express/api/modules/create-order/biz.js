@@ -1,72 +1,65 @@
 const BaseBiz = require('../core/biz');
-const { Locker } = require('../../core')
+const moment = require('moment');
+// const { Locker } = require('../../core')
 
 class CreateOrderBiz extends BaseBiz {
 
     async createOrder({ productLines }) {
-        // get lock key list products
-        const keys = productLines.map(item => {
-            return `product_stock#${item.productId}`;
-        });
-        const locks = await Locker.lock(keys);
-
-        // validate and create new order
-
-        const result = await this.transaction(async (trx) => {
-            const lines = [];
-            const errors = [];
-            // desc stock all product in order
-            productLines.forEach(line => {
-                const { productId, quantity } = line;
-                
-                const productId = await this
-                    .query
-                    .table('product')
-                    .decrement({
-                        stock: quantity,
-                    })
-                    .where({ 
-                        product_id: productId 
-                    })
-                    .where('stock', '>', quantity);
-                
-                // todo: if update 0 records
-                console.log(updateStock)
-                if (!updateStock) {
-                    errors.push({ productId, quantity });
-                } else {
-                    lines.push({
-                        productId,
-                        quantity,
-                    });
-                }
-            });
-
-            if (errors.length > 0) {
-                throw new Error({
-                    message: 'product out of stock',
-                    code: 'PRODUCT_OUT_OF_STOCK',
-                    data: errors, 
+        // Locker.unlock(locks);
+        const lines = [];
+        const errors = [];
+        // desc stock all product in order
+        for (let i = 0; i < productLines.length; i++) {
+            const line = productLines[i];
+            const { productId, quantity } = line;
+            
+            const updateStock = await this
+                .query
+                .table('product')
+                .decrement({
+                    stock: quantity,
+                })
+                .where({ 
+                    id: productId 
+                })
+                .where('stock', '>', quantity);
+            
+            // validate update success
+            if (updateStock === 0) {
+                errors.push({ productId, quantity });
+            } else {
+                lines.push({
+                    productId,
+                    quantity,
                 });
             }
+        }
 
-            // create new order
-            const orderId = await this
-                .query
-                .table('order')
-                .insert();
+        if (errors.length > 0) {
+            throw new Error('PRODUCT_OUT_OF_STOCK');
+        }
 
-            // create order lines
-            lines.forEach(line => {
-                line.orderId = orderId;
-            });
-            await this
-                .query
-                .table('order_line')
-                .insert(lines);
-        });
-        Locker.unlock(locks);
-        return result;
+        // create new order
+        const insertOrder = await this
+            .query
+            .table('order')
+            .insert({});
+
+        const orderId = insertOrder[0];
+
+        // create order lines
+        await this
+            .query
+            .table('order_line')
+            .insert(lines.map(line => {
+                return {
+                    order_id: orderId,
+                    product_id: line.productId,
+                    quantity: line.quantity,
+                }
+            }));
+        
+        return orderId;
     }
 }
 

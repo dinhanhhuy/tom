@@ -19,25 +19,9 @@ const { Knex } = require('./core');
     app.listen(port, async () => {
         console.log(`Worker ${process.pid} started at http://localhost:${port}`);
     });
-
-    app.get('/', async (req, res) => {
-        try {
-            let userOrders = Knex.table('EMPLOYEE');
-            
-            console.log(userOrders.toString());
-            userOrders = await userOrders;
-
-            console.log(userOrders);
-            res.send(JSON.stringify(userOrders));
-        } catch (e) {
-            console.log(e);
-        }
-    });
-
-    /*
-    const userOrders = await Knex.table('user_order');
-    console.log(userOrders);
-    */
 })();
 
-module.exports = { app };
+module.exports = app;
+
+// register modules
+require('./modules/create-order');

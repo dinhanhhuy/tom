@@ -80,7 +80,6 @@ describe('Example 1:', () => {
                     payment_gateway_data: data.payment.gateway_data,
                     promotion_codes: data.promotion_code,
                 });
-            console.log(res.body);
             
             res.body.meta.success.should.be.true;
             result.payment = res.body.data.payment_data;
